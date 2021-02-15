@@ -46,7 +46,7 @@
                                     @foreach($inboxMails as $inbox)
                                     <tr onkeypress="window.location='/dashboard/inbox/{{ $inbox->id }}'" tabindex="1" class="emailRow">
                                         <td>{{ $inbox->id }}</td>
-                                        <td>{{ $inbox->from }}</td>
+                                        <td>{{ $inbox->from_email }}</td>
                                         <td>{{ $inbox->subject }}</td>
                                         <td>{{ $inbox->body }}</td>
                                     </tr>

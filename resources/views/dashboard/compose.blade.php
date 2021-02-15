@@ -27,7 +27,7 @@
                                                 <ol class="list-group">
                                                     @forelse($contacts as $contact)
                                                         <li class="list-group-item">
-                                                            <a class="contactEmail" tabindex="1" href="{{ route('compose.contact', $contact->id) }}">{{ $loop->index+1 }}. {{ $contact->email }}@vmail.com</a>
+                                                            <a class="contactEmail text-black" tabindex="1" href="{{ route('compose.contact', $contact->id) }}">{{ $contact->email }}@vmail.com</a>
                                                         </li>
                                                     @empty
                                                     @endforelse
@@ -44,14 +44,24 @@
                                                     @csrf
 
                                                     <div class="form-group"><label class="small mb-1" for="inputEmailAddress">From: </label>
+                                                        <div class="d-flex align-items-center">
                                                         <input name="fromEmail" class="form-control py-4" id=""
                                                                type="text" aria-describedby="emailHelp" placeholder="Enter email"
-                                                        value="{{ auth()->user()->email.config('vmail') }}" readonly/></div>
+                                                        value="{{ auth()->user()->email }}" readonly/>
+                                                        <span>{{ env('vmail') }}</span>
+                                                        </div>
+
+                                                    </div>
 
                                                     <div class="form-group"><label class="small mb-1" for="emailTo">To: </label>
-                                                        <input name="to" class="form-control py-4" id="emailTo"
-                                                               value="{{ $selected_contact ? $selected_contact->email : '' }}" {{ $selected_contact ? 'readonly' : '' }}
-                                                               type="text" aria-describedby="emailHelp" placeholder="Enter email" tabindex="1" /></div>
+                                                        <div class="d-flex align-items-center">
+                                                            <input name="to" class="form-control py-4" id="emailTo"
+                                                                   value="{{ $selected_contact ? $selected_contact->email : '' }}" {{ $selected_contact ? 'readonly' : '' }}
+                                                                   type="text" aria-describedby="emailHelp" placeholder="Enter email" tabindex="{{ $selected_contact ? -999 : 1 }}" />
+                                                            <span>{{ env('vmail') }}</span>
+                                                        </div>
+
+                                                    </div>
 
                                                     <div class="form-group"><label class="small mb-1" for="inputEmailAddress">Subject: </label>
                                                         <input name="subject" class="form-control py-4" id="emailSubject"

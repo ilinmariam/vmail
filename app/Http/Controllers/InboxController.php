@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Inbox;
 use App\Sent;
+use App\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
@@ -15,16 +16,14 @@ class InboxController extends Controller
 {
     public function index()
     {
-        //
-        $user = auth()->user();
 
         $client = new Client();
         $token = 'f3825659be47f337ed78cebfe43976d5';
         $inbox_id = 1162893;
-        $uri = 'https://mailtrap.io/api/v1/inboxes/'.$inbox_id.'/messages/';
+        $uri = 'https://mailtrap.io/api/v1/inboxes/' . $inbox_id . '/messages/';
         $headers = [
             'Authorization' => 'Bearer ' . $token,
-            'Accept'        => 'application/json',
+            'Accept' => 'application/json',
         ];
 
         $response = $client->get($uri, [
@@ -36,7 +35,7 @@ class InboxController extends Controller
         if (!empty($emails)) {
             foreach ($emails as $email) {
 
-                $response = $client->get($uri.$email->id.'/body.txt', [
+                $response = $client->get($uri . $email->id . '/body.txt', [
                     'headers' => $headers,
                 ]);
 
@@ -46,22 +45,30 @@ class InboxController extends Controller
                     $body = $response->getBody()->getContents();
                 }
 
-                Inbox::updateOrCreate([
-                    'email_id' => $email->id,
-                   'from' => $email->from_email,
-                   'subject' => $email->subject,
-                   'body' => $body,
-                    'user_id' => $user->id,
-                ]);
+                $username = explode('@', $email->to_email);
+                $user = User::where('email', $username[0])->first();
 
-                } // End foreach
+                if ($user) {
 
-        } // End if
+                    $inbox = Inbox::firstOrCreate([
+                        'email_id' => $email->id
+                    ]);
 
-        $inboxMails = Inbox::all();
+                    $inbox->update([
+                        'from_email' => $email->from_email,
+                        'subject' => $email->subject,
+                        'body' => $body,
+                        'user_id' => $user->id,
+                    ]);
+                }
 
-        return view('dashboard.inbox.index', ['inboxMails'=>$inboxMails]);
+            }
 
+            $inboxMails = auth()->user()->inbox_emails;
+
+            return view('dashboard.inbox.index', ['inboxMails' => $inboxMails]);
+
+        }
     }
 
     /**

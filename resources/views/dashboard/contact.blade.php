@@ -8,12 +8,12 @@
     @include('dashboard.side-nav')
 
 
-    <div id="layoutContactPage">
-        <main>
+    <div id="layoutSidenav_content">
+        <main id="layoutContact">
             <div class="container-fluid">
                 <br>
 
-                <div id="layoutContact">
+                <div>
                     <div id="layoutContact_content">
                         <main>
                             <div class="container">
@@ -33,7 +33,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group mt-4 mb-0"><button type="submit" class="btn btn-primary btn-block text-black-50" tabindex="4">Create Contact</button></div>
+                                                    <div class="form-group mt-4 mb-0"><button type="submit" class="btn btn-primary btn-block text-black-50" tabindex="1">Create</button></div>
                                                 </form>
                                             </div>
 
@@ -47,7 +47,7 @@
                                                 <ol class="list-group">
                                                     @forelse($contacts as $contact)
                                                     <li class="list-group-item justify-content-between" style="display: flex">
-                                                        <span class="contactEmail" tabindex="1">{{ $loop->index+1 }}. {{ $contact->email }}@vmail.com</span>
+                                                        <span class="contactEmail" tabindex="1">{{ $contact->email }}@vmail.com</span>
                                                         <a tabindex="1" class="btn btn-danger" href="{{ route('contact.destroy', $contact->id) }}">Delete</a>
                                                     </li>
                                                     @empty

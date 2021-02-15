@@ -1,6 +1,7 @@
  synth = window.speechSynthesis;
  pitch = 1
  rate = 0.9
+ beep = new Audio('/beep.mp3');
 
 function say(message) {
 
@@ -26,12 +27,11 @@ function listenEmailBody(element) {
 
     recognition.continuous = true;
 
-     if (!bodyText || bodyText.length < 1 || speechToText === '') {
+     if (!bodyText || bodyText.length < 1 || bodyText === '') {
          bodyText = '';
-     } else {
-         bodyText += ' ';
-     }
+     } else bodyText += ' ';
 
+    beep.play();
      recognition.start();
 
      recognition.onresult = (event) => {
@@ -42,11 +42,17 @@ function listenEmailBody(element) {
 
         bodyText += transcript;
 
-         element.val(bodyText);
+         if (!bodyText || bodyText.length < 1 || bodyText === '') {
+             say('Try again');
+             emailBody.focus();
+         } else {
+             element.val(bodyText);
+         }
      }
 
     recognition.onspeechend = function () {
-        say('End of message');
+        beep.play();
+        say('Your message was: ' + element.val());
     }
 
     recognition.onerror = function () {
@@ -63,6 +69,8 @@ function listenEmailBody(element) {
      recognition.stop();
      speechToText = '';
 
+    beep.play();
+
      recognition.start();
 
      recognition.onresult = (event) => {
@@ -77,6 +85,7 @@ function listenEmailBody(element) {
              say('Try again.');
              element.focus();
          } else {
+             beep.play();
              element.val(speechToText);
              say('Your input was : ' + speechToText);
          }
@@ -84,7 +93,7 @@ function listenEmailBody(element) {
      }
 
      recognition.onspeechend = function () {
-
+         beep.play();
          say('Your input was : ' + element.val());
      }
 

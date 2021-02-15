@@ -19,19 +19,13 @@
                 <div class="card mb-4">
                     <div class="card-header"><i class="fas fa-table mr-1"></i>Inbox Email</div>
                     <div class="card-body">
-                        <p>From: {{ $inbox->from }}.</p>
+                        <p>From: {{ $inbox->from_email }}.</p>
                         <p>Subject: {{ $inbox->subject }}.</p>
                         <p>Date: {{ $inbox->created_at->format('l, jS F, Y. h:i:s A') }}</p>
                         <br>
                         <p>{{ $inbox->body }}</p>
                     </div>
                 </div>
-
-
-
-
-
-
 
             </div>
         </main>

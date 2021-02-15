@@ -24,9 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-        $vmail = '@vmail.com';
-        config(['vmail' => $vmail]);
-        View::share('vmail', $vmail);
+
     }
 }

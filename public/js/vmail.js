@@ -13,24 +13,8 @@ $(document).ready(function () {
         say($(this).text());
     });
 
-    // $('.navbar-brand').on('focus', function () {
-    //     say('Home');
-    // });
-
-    $('.signOut').on('focus', function () {
-        say('Sign Out');
-    });
-
-    $('#layoutLoginPage').on('click', function () {
-        say('Welcome to login page');
-    });
-
-    $('#layoutRegisterPage').on('click', function () {
-        say('Welcome to register page');
-    });
-
-    $('#layoutContactPage').on('click', function () {
-        say('Welcome to contact page');
+    $('#dashboard').on('click', function () {
+        say('Welcome to dashboard!');
     });
 
     $('input[name="name"]').on('focus', function () {
@@ -40,8 +24,12 @@ $(document).ready(function () {
         });
     });
 
-    $('button').on('focus', function () {
+    $('button, a.btn').on('focus', function () {
         say($(this).text());
+    });
+
+    $('#logOut').on('focus', function () {
+        say('Log Out');
     });
 
     $('input[name="email"]').on('focus', function () {
@@ -54,7 +42,7 @@ $(document).ready(function () {
     $('input[name="password"]').on('focus', function () {
         say('password');
         sleep(2000).then(() => {
-            listenInput($('input[name="password"]'));
+            listenInput($(this));
         });
     });
 
@@ -62,7 +50,7 @@ $(document).ready(function () {
         say('password confirmation');
         // Usage!
         sleep(2000).then(() => {
-            listenInput($('input[name="password_confirmation"]'));
+            listenInput($(this));
         });
 
     });
@@ -84,7 +72,7 @@ $(document).ready(function () {
     });
 
     $('#emailTo').on('focus', function () {
-        say('Email to: ');
+        say('Email to username: ');
         sleep(2000).then(() => {
             listenInput($(this));
         });

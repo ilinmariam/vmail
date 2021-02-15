@@ -43,7 +43,7 @@
                                     <tbody>
 
                                     @foreach($trashMails as $trash)
-                                    <tr tabindex="1" class="trashRow">
+                                    <tr tabindex="1" class="emailRow">
                                         <td>{{ $trash['id'] }}</td>
                                         @if(key_exists('to', $trash))
                                             <td>Sent</td>
@@ -62,7 +62,7 @@
                                                     <input type="hidden" name="origin" value="Inbox">
                                                 @endif
                                                 <button type="submit" name="restore" class="btn btn-success" tabindex="1">Restore</button>
-                                                <button type="submit" name="delete" class="btn btn-danger" tabindex="2">Delete</button>
+                                                <button type="submit" name="delete" class="btn btn-danger" tabindex="1">Delete</button>
                                             </form>
                                         </td>
                                     </tr>

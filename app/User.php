@@ -37,12 +37,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function sent()
+    public function sent_emails()
     {
         return $this->hasMany(Sent::class);
     }
 
-    public function inbox()
+    public function inbox_emails()
     {
         return $this->hasMany(Inbox::class, 'user_id', 'id');
     }

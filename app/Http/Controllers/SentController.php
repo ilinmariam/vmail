@@ -13,7 +13,9 @@ class SentController extends Controller
     public function index()
     {
         //
-        return view('dashboard.sent.index', ['sentMails'=>Sent::all()]);
+        $sentMails = auth()->user()->sent_emails;
+
+        return view('dashboard.sent.index', ['sentMails'=> $sentMails]);
 
     }
 
@@ -31,15 +33,10 @@ class SentController extends Controller
     {
         $user = auth()->user();
 
-        $fromEmail = $request->get('fromEmail');
-        $to = $request->get('to').'@vmail.com';
+        $fromEmail = $request->get('fromEmail').env('vmail');
+        $to = $request->get('to').env('vmail');
         $subject = $request->get('subject');
         $body = $request->get('body');
-
-//        $data['from'] = $fromEmail;
-//        $data['to'] = $to;
-//        $data['subject'] = $subject;
-//        $data['body'] = $body;
 
 
         Mail::raw($body, function ($message) use ($fromEmail, $to, $subject) {
@@ -50,7 +47,7 @@ class SentController extends Controller
 
 
         Sent::create([
-            'to' => $to,
+            'to' => request('to'),
             'subject' => request('subject'),
             'body' => request('body'),
             'user_id'  => $user->id
